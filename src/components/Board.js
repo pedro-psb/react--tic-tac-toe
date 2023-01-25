@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { create_board } from "../utils/utils";
 
-export default function Board() {
-  const board_matrix = create_board();
+export default function Board({ board_matrix }) {
   return (
     <div>
       {board_matrix.map((row, i) => (
