@@ -90,7 +90,7 @@ export class TicTacBoard {
   }
 
   #validate(row, col) {
-    if (row - 1 > 2 || col - 1 > 2) {
+    if (row - 1 > 2 || col - 1 > 2 || row - 1 < 0 || col - 1 < 0) {
       throw Error("Invalid row/col indexes. Board sizes is 3x3");
     }
   }
