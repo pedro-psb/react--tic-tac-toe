@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function Board({ board_matrix }) {
   return (
-    <div>
+    <div role="table">
       {board_matrix.map((row, i) => (
         <Row key={i}>
           {row.map((element, j) => (

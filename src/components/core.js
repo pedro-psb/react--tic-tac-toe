@@ -5,10 +5,10 @@ export class TicTacBoard {
   #matrix;
   #winner;
   #moves;
-  constructor(matrix_array = null, x_turn = true) {
-    this.#matrix = matrix_array ? matrix_array : this.#init_matrix();
+  constructor({ matrix = null, winner = null, x_turn = true } = {}) {
+    this.#matrix = matrix ? matrix : this.#init_matrix();
     this.x_turn = x_turn;
-    this.#winner = null;
+    this.#winner = winner ? winner : null;
     this.#moves = 0;
   }
 
@@ -25,6 +25,7 @@ export class TicTacBoard {
       this.#moves += 1;
       this.x_turn = !this.x_turn;
       this.#check_for_win();
+      return this.game_state;
     } else {
       throw Error("cell already marked");
     }
@@ -40,16 +41,20 @@ export class TicTacBoard {
     return this.#matrix[row - 1][col - 1];
   }
 
-  // Getter and setter
-
-  // considering returning a copy to protect from external side-effects
-  // on the board internal structure
-  get matrix() {
-    return [...this.#matrix.map((row) => row.map((cell) => cell.mark))];
+  // TODO avoid this code duplication
+  static initGame() {
+    const empty_matrix = Array.from(Array(3), (row) => Array(3).fill(null));
+    return {
+      matrix: empty_matrix,
+      winner: null,
+    };
   }
 
-  get winner() {
-    return this.#winner;
+  get game_state() {
+    return {
+      matrix: [...this.#matrix.map((row) => row.map((cell) => cell.mark))],
+      winner: this.#winner,
+    };
   }
 
   // Utils
