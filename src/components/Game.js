@@ -10,14 +10,22 @@ export function useHandleMark() {
 export default function Game() {
   const [gameState, setGameState] = useState(TicTacBoard.initGame());
   const board = new TicTacBoard({ ...gameState });
+  const messages = gameState.messages;
 
   function handleMarkTile(row, col) {
-    setGameState(board.markCell(row, col));
+    const new_state = board.markCell(row, col);
+    setGameState(new_state);
   }
 
   return (
     <HandleMarkCtx.Provider value={handleMarkTile}>
       <Board board_matrix={gameState.matrix} />
+      {messages &&
+        messages.map((msg, i) => (
+          <p key={i}>
+            {msg.type}: {msg.content}
+          </p>
+        ))}
     </HandleMarkCtx.Provider>
   );
 }

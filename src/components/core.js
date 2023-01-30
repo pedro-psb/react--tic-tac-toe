@@ -5,18 +5,35 @@ export class TicTacBoard {
   #matrix;
   #winner;
   #moves;
-  constructor({ matrix = null, winner = null, x_turn = true } = {}) {
+
+  constructor({
+    matrix = null,
+    winner = null,
+    x_turn = true,
+    moves = 0,
+    messages = null,
+  } = {}) {
     this.#matrix = matrix ? this.#load_matrix(matrix) : this.#init_matrix();
     this.x_turn = x_turn;
+    this.messages = messages ? messages : [];
     this.#winner = winner ? winner : null;
-    this.#moves = 0;
+    this.#moves = moves;
   }
 
   // API
 
   markCell(row, col) {
+    // check for winner
+    if (this.#winner) {
+      this.messages.push({ type: "error", content: "Game is already over" });
+      return this.game_state;
+      // throw Error("Game is already over");
+    }
+
+    // mark cell
     let cell = this.getCell(row, col);
     if (!cell.isMarked()) {
+      this.messages = [];
       if (this.x_turn) {
         cell.markX();
       } else {
@@ -25,19 +42,20 @@ export class TicTacBoard {
       this.#moves += 1;
       this.x_turn = !this.x_turn;
       this.#check_for_win();
-      return this.game_state;
     } else {
-      throw Error("cell already marked");
+      this.messages.push({
+        type: "Error",
+        content: "Cell already marked",
+      });
     }
+    // Anyway, return game_state
+    return this.game_state;
   }
 
   // 1 indexed value
   // consider creating a static method for this and protecting getCell
   getCell(row, col) {
     this.#validate(row, col);
-    if (this.#winner) {
-      throw Error("Game is already over");
-    }
     return this.#matrix[row][col];
   }
 
@@ -47,6 +65,9 @@ export class TicTacBoard {
     return {
       matrix: empty_matrix,
       winner: null,
+      x_turn: true,
+      moves: 0,
+      messages: [],
     };
   }
 
@@ -55,6 +76,8 @@ export class TicTacBoard {
       matrix: [...this.#matrix.map((row) => row.map((cell) => cell.mark))],
       winner: this.#winner,
       x_turn: this.x_turn,
+      moves: this.#moves,
+      messages: this.messages,
     };
   }
 
@@ -71,6 +94,10 @@ export class TicTacBoard {
           first_mark === second_mark && second_mark === third_mark;
         if (has_win) {
           this.#winner = first_mark;
+          this.messages.push({
+            type: "info",
+            content: `player ${first_mark} is the winner!`,
+          });
           break;
         }
       }

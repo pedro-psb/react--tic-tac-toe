@@ -26,11 +26,12 @@ describe("TicTacBoard core functionality", () => {
     expect(game_state.matrix[0][2]).toBe("X");
   });
 
-  it("can't override a already marked cell", () => {
+  it("can't override an already marked cell", () => {
     const board = new TicTacBoard();
     let game_state = board.markCell(0, 0);
+    board.markCell(0, 0);
     expect(game_state.matrix[0][0]).toBe("X");
-    expect(() => board.markCell(0, 0)).toThrow();
+    expect(game_state.messages[0].type).toMatch(/error/i);
   });
 
   it("initializes Tile correctly when given 'X' or 'O'", () => {
