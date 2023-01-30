@@ -6,7 +6,7 @@ export class TicTacBoard {
   #winner;
   #moves;
   constructor({ matrix = null, winner = null, x_turn = true } = {}) {
-    this.#matrix = matrix ? matrix : this.#init_matrix();
+    this.#matrix = matrix ? this.#load_matrix(matrix) : this.#init_matrix();
     this.x_turn = x_turn;
     this.#winner = winner ? winner : null;
     this.#moves = 0;
@@ -38,7 +38,7 @@ export class TicTacBoard {
     if (this.#winner) {
       throw Error("Game is already over");
     }
-    return this.#matrix[row - 1][col - 1];
+    return this.#matrix[row][col];
   }
 
   // TODO avoid this code duplication
@@ -54,6 +54,7 @@ export class TicTacBoard {
     return {
       matrix: [...this.#matrix.map((row) => row.map((cell) => cell.mark))],
       winner: this.#winner,
+      x_turn: this.x_turn,
     };
   }
 
@@ -89,8 +90,18 @@ export class TicTacBoard {
     return fresh_matrix;
   }
 
+  // the internal matrix should contain Tile objects
+  #load_matrix(matrix) {
+    const internal_matrix = matrix.map((row) =>
+      row.map((col) => {
+        return col !== "" ? new Tile(col) : new Tile();
+      })
+    );
+    return internal_matrix;
+  }
+
   #validate(row, col) {
-    if (row - 1 > 2 || col - 1 > 2 || row - 1 < 0 || col - 1 < 0) {
+    if (row > 2 || col > 2 || row < 0 || col < 0) {
       throw Error("Invalid row/col indexes. Board sizes is 3x3");
     }
   }
@@ -100,8 +111,12 @@ export class TicTacBoard {
 
 export class Tile {
   #state;
-  constructor() {
-    this.#state = null;
+
+  constructor(state = null) {
+    if (state && !"XO".includes(state)) {
+      throw Error("Invalid mark");
+    }
+    this.#state = state;
   }
 
   markX() {

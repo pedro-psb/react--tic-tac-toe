@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHandleMark } from "./Game";
 
 export default function Board({ board_matrix }) {
   return (
@@ -21,8 +22,14 @@ export function Row({ children }) {
 }
 
 export function Cell({ colnum, rownum, children }) {
+  const handler = useHandleMark();
   return (
-    <span role="cell" aria-colindex={colnum} aria-rowindex={rownum}>
+    <span
+      role="cell"
+      aria-colindex={colnum}
+      aria-rowindex={rownum}
+      onClick={() => handler(rownum, colnum)}
+    >
       {children}
     </span>
   );

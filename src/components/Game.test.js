@@ -9,12 +9,13 @@ describe("Game controller", () => {
     render(<Game />);
     expect(screen.getByRole("table")).toBeInTheDocument();
   });
+
   it("clicking an empty cell toggles it", () => {
     render(<Game />);
     const tiles = screen.getAllByRole("cell");
-    const cell = getCell(tiles, 1, 1);
-    const cell2 = getCell(tiles, 2, 1);
-    const cell3 = getCell(tiles, 3, 1);
+    const cell = getCell(tiles, 0, 0);
+    const cell2 = getCell(tiles, 1, 0);
+    const cell3 = getCell(tiles, 2, 0);
     userEvent.click(cell);
     userEvent.click(cell2);
     userEvent.click(cell3);
