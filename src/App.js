@@ -1,9 +1,12 @@
 import Board from "./components/Board.js";
+import { BoardMockup } from "./components/BoardMockup.js";
+import Game from "./components/Game.js";
 
 function App() {
   return (
     <div className="App">
-      <Board />
+      <Game />
+      {/* <BoardMockup /> */}
     </div>
   );
 }

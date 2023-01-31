@@ -17,15 +17,35 @@ export default function Game() {
     setGameState(new_state);
   }
 
+  function handleReset() {
+    setGameState(TicTacBoard.initGame());
+  }
+
   return (
-    <HandleMarkCtx.Provider value={handleMarkTile}>
-      <Board board_matrix={gameState.matrix} />
-      {messages &&
-        messages.map((msg, i) => (
-          <p key={i}>
-            {msg.type}: {msg.content}
-          </p>
-        ))}
-    </HandleMarkCtx.Provider>
+    <div id="container">
+      <HandleMarkCtx.Provider value={handleMarkTile}>
+        <div>
+          <h1>Tic Tac Toe</h1>
+        </div>
+        <div className="col">
+          <Board
+            board_matrix={gameState.matrix}
+            highlight_matrix={gameState.highligh_matrix}
+          />
+        </div>
+        <div className="col">
+          <button onClick={handleReset}>Reset</button>
+        </div>
+        {messages.length !== 0 && (
+          <div id="messages" className="col">
+            {messages.map((msg, i) => (
+              <p key={i}>
+                {msg.type}: {msg.content}
+              </p>
+            ))}
+          </div>
+        )}
+      </HandleMarkCtx.Provider>
+    </div>
   );
 }

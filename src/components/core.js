@@ -11,6 +11,7 @@ export class TicTacBoard {
     winner = null,
     x_turn = true,
     moves = 0,
+    highligh_matrix,
     messages = null,
   } = {}) {
     this.#matrix = matrix ? this.#load_matrix(matrix) : this.#init_matrix();
@@ -18,6 +19,9 @@ export class TicTacBoard {
     this.messages = messages ? messages : [];
     this.#winner = winner ? winner : null;
     this.#moves = moves;
+    this.highligh_matrix = highligh_matrix
+      ? highligh_matrix
+      : TicTacBoard._empty_matrix();
   }
 
   // API
@@ -60,10 +64,15 @@ export class TicTacBoard {
   }
 
   // TODO avoid this code duplication
+  static _empty_matrix() {
+    return Array.from(Array(3), (row) => Array(3).fill(null));
+  }
+
   static initGame() {
-    const empty_matrix = Array.from(Array(3), (row) => Array(3).fill(null));
+    const empty_matrix = TicTacBoard._empty_matrix();
     return {
       matrix: empty_matrix,
+      highligh_matrix: empty_matrix,
       winner: null,
       x_turn: true,
       moves: 0,
@@ -74,6 +83,7 @@ export class TicTacBoard {
   get game_state() {
     return {
       matrix: [...this.#matrix.map((row) => row.map((cell) => cell.mark))],
+      highligh_matrix: this.highligh_matrix,
       winner: this.#winner,
       x_turn: this.x_turn,
       moves: this.#moves,
@@ -87,13 +97,25 @@ export class TicTacBoard {
   #check_for_win() {
     if (this.#moves > 4 && this.#moves < 9) {
       for (const win of wins) {
+        // win check
         const first_mark = this.getCell(win[0][0], win[0][1]).mark;
         const second_mark = this.getCell(win[1][0], win[1][1]).mark;
         const third_mark = this.getCell(win[2][0], win[2][1]).mark;
         const has_win =
-          first_mark === second_mark && second_mark === third_mark;
+          first_mark &&
+          first_mark === second_mark &&
+          second_mark === third_mark;
+
+        // win dispatch
         if (has_win) {
           this.#winner = first_mark;
+
+          // highlight winning stroke
+          win.forEach(
+            (pair) => (this.highligh_matrix[pair[0]][pair[1]] = true)
+          );
+
+          // push message
           this.messages.push({
             type: "info",
             content: `player ${first_mark} is the winner!`,
