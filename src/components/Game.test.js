@@ -62,7 +62,20 @@ describe("Game controller", () => {
   });
 
   it("a tie game freezes the board and shows tie-state", () => {
-    const board = new TicTacBoard();
-    // simulate user cliking marked cell
+    render(<Game />);
+    const tiles = screen.getAllByRole("cell");
+    userEvent.click(getCell(tiles, 0, 0));
+    userEvent.click(getCell(tiles, 0, 1));
+    userEvent.click(getCell(tiles, 0, 2));
+
+    userEvent.click(getCell(tiles, 2, 0));
+    userEvent.click(getCell(tiles, 2, 1));
+    userEvent.click(getCell(tiles, 2, 2));
+
+    userEvent.click(getCell(tiles, 1, 0));
+    userEvent.click(getCell(tiles, 1, 1));
+    userEvent.click(getCell(tiles, 1, 2));
+
+    expect(screen.getByText(/tie/i)).toBeInTheDocument();
   });
 });

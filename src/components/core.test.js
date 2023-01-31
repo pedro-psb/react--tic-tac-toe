@@ -1,5 +1,24 @@
 import { TicTacBoard, Tile } from "./core.js";
 
+const row_win_moves = [
+  [0, 0],
+  [1, 0],
+  [0, 1],
+  [1, 1],
+  [0, 2],
+];
+const tie_moves = [
+  [0, 0],
+  [0, 1],
+  [0, 2],
+  [2, 0],
+  [2, 1],
+  [2, 2],
+  [1, 0],
+  [1, 1],
+  [1, 2],
+];
+
 describe("TicTacBoard core functionality", () => {
   it("initializes succesfully", () => {
     const board = TicTacBoard.initGame();
@@ -94,18 +113,32 @@ describe("TicTacBoard wins", () => {
 
   it("finishes the game if it is a tie", () => {
     const board = new TicTacBoard();
+    tie_moves.forEach((pair) => board.markCell(pair[0], pair[1]));
+    expect(board.game_state.winner).toBe("tie");
+  });
 
-    let game_state = board.markCell(0, 0);
-    game_state = board.markCell(1, 1);
-    game_state = board.markCell(2, 2);
+  it("highlights the winning strike", () => {
+    const board = new TicTacBoard();
+    row_win_moves.forEach((pair) => board.markCell(pair[0], pair[1]));
+    expect(board.game_state.highligh_matrix[0][0]).toBeTruthy();
+    expect(board.game_state.highligh_matrix[0][1]).toBeTruthy();
+    expect(board.game_state.highligh_matrix[0][2]).toBeTruthy();
+    expect(board.game_state.highligh_matrix[1][0]).toBeNull();
+  });
+});
 
-    game_state = board.markCell(0, 1);
-    game_state = board.markCell(0, 2);
-    game_state = board.markCell(2, 0);
-    game_state = board.markCell(2, 1);
-
-    game_state = board.markCell(1, 2);
-    game_state = board.markCell(1, 0);
-    expect(game_state.winner).toBe("tie");
+describe("TicTacBoard bugs", () => {
+  it("should not announces winning before end", () => {
+    // it was causes by wrongly asserting three null values as a win
+    const board = new TicTacBoard();
+    const buggy_moves = [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [1, 0],
+    ];
+    buggy_moves.forEach((pos) => board.markCell(pos[0], pos[1]));
+    board.markCell(1, 1);
+    expect(board.game_state.winner).toBeFalsy();
   });
 });

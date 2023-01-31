@@ -125,6 +125,10 @@ export class TicTacBoard {
       }
     } else if (this.#moves === 9) {
       this.#winner = "tie";
+      this.messages.push({
+        type: "info",
+        content: "Game over, it is a tie!",
+      });
     }
   }
 
