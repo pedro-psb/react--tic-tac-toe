@@ -37,7 +37,6 @@ export class TicTacBoard {
     // mark cell
     let cell = this.getCell(row, col);
     if (!cell.isMarked()) {
-      this.messages = [];
       if (this.x_turn) {
         cell.markX();
       } else {

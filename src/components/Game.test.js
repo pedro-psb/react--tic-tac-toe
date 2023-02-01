@@ -34,19 +34,6 @@ describe("Game controller", () => {
     expect(screen.getByText(/error/i)).toBeInTheDocument();
   });
 
-  it("hide error msg when valid move is done after an invalid one", () => {
-    render(<Game />);
-    const tiles = screen.getAllByRole("cell");
-    const cell = getCell(tiles, 0, 0);
-    const cell2 = getCell(tiles, 1, 0);
-    userEvent.click(cell);
-    userEvent.click(cell);
-    userEvent.click(cell2);
-    expect(cell).toHaveTextContent("X");
-    expect(cell2).toHaveTextContent("O");
-    expect(screen.queryByText(/error/i)).toBeNull();
-  });
-
   it("winning a game freezes the board and shows won-state", () => {
     render(<Game />);
     const tiles = screen.getAllByRole("cell");

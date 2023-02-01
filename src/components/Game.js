@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import Board from "./Board.js";
+import { MessagesDisplay } from "./Messages.js";
 import { TicTacBoard } from "./core.js";
 
 const HandleMarkCtx = createContext(null);
@@ -36,15 +37,7 @@ export default function Game() {
         <div className="col">
           <button onClick={handleReset}>Reset</button>
         </div>
-        {messages.length !== 0 && (
-          <div id="messages" className="col">
-            {messages.map((msg, i) => (
-              <p key={i}>
-                {msg.type}: {msg.content}
-              </p>
-            ))}
-          </div>
-        )}
+        <MessagesDisplay messages={messages} />
       </HandleMarkCtx.Provider>
     </div>
   );
