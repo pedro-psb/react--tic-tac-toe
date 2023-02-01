@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/pedro-psb/react--tic-tac-toe/static/css/main.766861b4.css",
-    "main.js": "/pedro-psb/react--tic-tac-toe/static/js/main.d24bcfac.js",
-    "index.html": "/pedro-psb/react--tic-tac-toe/index.html",
-    "main.766861b4.css.map": "/pedro-psb/react--tic-tac-toe/static/css/main.766861b4.css.map",
-    "main.d24bcfac.js.map": "/pedro-psb/react--tic-tac-toe/static/js/main.d24bcfac.js.map"
+    "main.css": "/react--tic-tac-toe/static/css/main.766861b4.css",
+    "main.js": "/react--tic-tac-toe/static/js/main.d24bcfac.js",
+    "index.html": "/react--tic-tac-toe/index.html",
+    "main.766861b4.css.map": "/react--tic-tac-toe/static/css/main.766861b4.css.map",
+    "main.d24bcfac.js.map": "/react--tic-tac-toe/static/js/main.d24bcfac.js.map"
   },
   "entrypoints": [
     "static/css/main.766861b4.css",
