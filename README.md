@@ -1,10 +1,12 @@
 # Tic-tac-toe
-A tic-tac-toe micro project to incrementally practice React development.
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/pedro-psb/react--tic-tac-toe/node.js.yml?branch=main)
+
+
+A tic-tac-toe micro project (not copied from react docs; seriously) to incrementally practice React development.
 
 See it live [here](https://pedro-psb.github.io/react--tic-tac-toe)
 
 ![image](https://user-images.githubusercontent.com/7907864/216142879-41595749-8ef8-4bb2-bdc0-f35b6dfd200f.png)
-
 
 ## Setup
 To install, test and run on your machine:
