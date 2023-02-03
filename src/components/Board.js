@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useHandleMark } from "./Game";
 import "./style.css";
 
